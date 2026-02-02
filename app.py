@@ -22,31 +22,31 @@ try:
 
     st.sidebar.header("Input Wine Features")
 
-    def user_input_features():
-        # Ranges below are based on data points found in sources [1-4]
-        alcohol = st.sidebar.slider('Alcohol', 11.0, 15.0, 13.0)
-        malic_acid = st.sidebar.slider('MalicAcid', 0.7, 5.8, 2.3)
-        ash = st.sidebar.slider('Ash', 1.3, 3.3, 2.3)
-        alkalinity_ash = st.sidebar.slider('AlkalinityAsh', 10.6, 30.0, 19.0)
-        mg = st.sidebar.slider('Mg', 70, 162, 100)
-        phenols = st.sidebar.slider('Phenols', 0.9, 4.0, 2.3)
-        flavanoids = st.sidebar.slider('Flavanoids', 0.3, 5.1, 2.0)
-        non_flavanoid_phenols = st.sidebar.slider('NonFlavanoidPhenols', 0.1, 0.7, 0.3)
-        proanthocyanins = st.sidebar.slider('Proanthocyanins', 0.4, 3.6, 1.5)
-        color = st.sidebar.slider('Color', 1.2, 13.0, 5.0)
-        hue = st.sidebar.slider('Hue', 0.4, 1.8, 1.0)
-        od_ratio = st.sidebar.slider('ODRatio', 1.2, 4.0, 2.6)
-        proline = st.sidebar.slider('Proline', 270, 1680, 750)
-        
-        data = {
-            'Alcohol': alcohol, 'MalicAcid': malic_acid, 'Ash': ash,
-            'AlkalinityAsh': alkalinity_ash, 'Mg': mg, 'Phenols': phenols,
-            'Flavanoids': flavanoids, 'NonFlavanoidPhenols': non_flavanoid_phenols,
-            'Proanthocyanins': proanthocyanins, 'Color': color, 'Hue': hue,
-            'ODRatio': od_ratio, 'Proline': proline
-        }
-        # FIXED: Added  to the index to prevent the previous syntax error
-        return pd.DataFrame(data, index=)
+def user_input_features():
+    # Ranges are based on data points in the sources (e.g., Mg up to 162, Alcohol up to 14.83)
+    alcohol = st.sidebar.slider('Alcohol', 11.0, 15.0, 13.0)
+    malic_acid = st.sidebar.slider('MalicAcid', 0.7, 5.8, 2.3)
+    ash = st.sidebar.slider('Ash', 1.3, 3.3, 2.3)
+    alkalinity_ash = st.sidebar.slider('AlkalinityAsh', 10.6, 30.0, 19.0)
+    mg = st.sidebar.slider('Mg', 70, 162, 100)
+    phenols = st.sidebar.slider('Phenols', 0.9, 4.0, 2.3)
+    flavanoids = st.sidebar.slider('Flavanoids', 0.3, 5.1, 2.0)
+    non_flavanoid_phenols = st.sidebar.slider('NonFlavanoidPhenols', 0.1, 0.7, 0.3)
+    proanthocyanins = st.sidebar.slider('Proanthocyanins', 0.4, 3.6, 1.5)
+    color = st.sidebar.slider('Color', 1.2, 13.0, 5.0)
+    hue = st.sidebar.slider('Hue', 0.4, 1.8, 1.0)
+    od_ratio = st.sidebar.slider('ODRatio', 1.2, 4.0, 2.6)
+    proline = st.sidebar.slider('Proline', 270, 1680, 750)
+    
+    data = {
+        'Alcohol': alcohol, 'MalicAcid': malic_acid, 'Ash': ash,
+        'AlkalinityAsh': alkalinity_ash, 'Mg': mg, 'Phenols': phenols,
+        'Flavanoids': flavanoids, 'NonFlavanoidPhenols': non_flavanoid_phenols,
+        'Proanthocyanins': proanthocyanins, 'Color': color, 'Hue': hue,
+        'ODRatio': od_ratio, 'Proline': proline
+    }
+    # FIX: Added  to the index to create a single-row DataFrame
+    return pd.DataFrame(data, index=)
 
     input_df = user_input_features()
 
@@ -67,3 +67,4 @@ except FileNotFoundError:
     st.error("Error: 'wine.csv' not found. Please ensure the dataset is in the same folder.")
 except Exception as e:
     st.error(f"An error occurred: {e}")
+
