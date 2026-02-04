@@ -11,12 +11,8 @@ st.write("Predict if a wine is Barolo, Grignolino, or Barbera based on chemical 
 # 1. Load data and train model
 @st.cache_data
 def load_and_train():
-    # Load dataset using headers from the source [2]
     df = pd.read_csv("wine.csv")
-    
-    # IMPORTANT: Your wine.csv has some broken/incomplete lines [2, 5, 6]
-    # dropna() removes those messy rows so the model doesn't crash.
-    df = df.dropna()
+    df = df.dropna()  # clean any broken rows
     
     X = df.drop('WineClass', axis=1)
     y = df['WineClass']
@@ -25,6 +21,7 @@ def load_and_train():
     model.fit(X, y)
     return df, model
 
+# --- MAIN EXECUTION ---
 try:
     df, model = load_and_train()
 
@@ -35,36 +32,7 @@ try:
     # --- SIDEBAR: USER INPUTS ---
     st.sidebar.header("Input Features")
 
-    user_data = get_inputs()
-
-    # --- MAIN PANEL ---
-    st.subheader(f"Top {num_rows} Rows of Dataset")
-    st.dataframe(df.head(num_rows))
-
-    prediction = model.predict(user_data)
-    prediction_proba = model.predict_proba(user_data)
-
-    st.subheader("Prediction")
-    predicted_class = prediction[0]
-    st.success(f"Predicted Class: **{predicted_class.upper()}**")
-
-    st.subheader("Probability Bar Graph")
-    proba_df = pd.DataFrame(prediction_proba, columns=model.classes_)
-    st.bar_chart(proba_df.T)
-
-except FileNotFoundError:
-    st.error("Missing 'wine.csv' file in repository.")
-except Exception as e:
-    st.error(f"Error: {e}")
-
-    try:
-    ...
-    # stray code here not indented properly
-prediction = model.predict(user_data)   # <- wrong, outside try but before except
-except FileNotFoundError:
-    ...
     def get_inputs():
-        # Slider ranges reflect the data points in the sources [5, 7, 8]
         alcohol = st.sidebar.slider('Alcohol', 11.0, 15.0, 13.0)
         malic = st.sidebar.slider('MalicAcid', 0.7, 6.0, 2.3)
         ash = st.sidebar.slider('Ash', 1.3, 3.5, 2.3)
@@ -78,7 +46,7 @@ except FileNotFoundError:
         hue = st.sidebar.slider('Hue', 0.4, 1.8, 1.0)
         od = st.sidebar.slider('ODRatio', 1.2, 4.0, 2.6)
         proline = st.sidebar.slider('Proline', 270, 1700, 750)
-        
+
         data = {
             'Alcohol': alcohol, 'MalicAcid': malic, 'Ash': ash,
             'AlkalinityAsh': alk, 'Mg': mg, 'Phenols': phenols,
@@ -86,8 +54,7 @@ except FileNotFoundError:
             'Proanthocyanins': proanth, 'Color': color, 'Hue': hue,
             'ODRatio': od, 'Proline': proline
         }
-        # FIXED: Added  to the index to resolve your SyntaxError [1]
-        return pd.DataFrame(data, index=[1])
+        return pd.DataFrame(data, index=[0])
 
     user_data = get_inputs()
 
@@ -95,25 +62,18 @@ except FileNotFoundError:
     st.subheader(f"Top {num_rows} Rows of Dataset")
     st.dataframe(df.head(num_rows))
 
-prediction = model.predict(user_data)
-prediction_proba = model.predict_proba(user_data)
+    prediction = model.predict(user_data)
+    prediction_proba = model.predict_proba(user_data)
 
-st.subheader("Prediction")
-predicted_class = prediction[0]   # fix here
-st.success(f"Predicted Class: **{predicted_class.upper()}**")
+    st.subheader("Prediction")
+    predicted_class = prediction[0]  # extract string from array
+    st.success(f"Predicted Class: **{predicted_class.upper()}**")
 
-st.subheader("Probability Bar Graph")
-proba_df = pd.DataFrame(prediction_proba, columns=model.classes_)
-st.bar_chart(proba_df.T)
+    st.subheader("Probability Bar Graph")
+    proba_df = pd.DataFrame(prediction_proba, columns=model.classes_)
+    st.bar_chart(proba_df.T)
 
 except FileNotFoundError:
     st.error("Missing 'wine.csv' file in repository.")
 except Exception as e:
     st.error(f"Error: {e}")
-
-
-
-
-
-
-
