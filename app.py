@@ -27,13 +27,22 @@ def load_and_train():
 
 try:
     df, model = load_and_train()
+    ...
+    prediction = model.predict(user_data)
+    prediction_proba = model.predict_proba(user_data)
 
-    # --- SIDEBAR: DATA PREVIEW ---
-    st.sidebar.header("Dataset Preview")
-    num_rows = st.sidebar.number_input("Rows to show:", min_value=1, max_value=len(df), value=5)
+    st.subheader("Prediction")
+    predicted_class = prediction[0]
+    st.success(f"Predicted Class: **{predicted_class.upper()}**")
 
-    # --- SIDEBAR: USER INPUTS ---
-    st.sidebar.header("Input Features")
+    st.subheader("Probability Bar Graph")
+    proba_df = pd.DataFrame(prediction_proba, columns=model.classes_)
+    st.bar_chart(proba_df.T)
+
+except FileNotFoundError:
+    st.error("Missing 'wine.csv' file in repository.")
+except Exception as e:
+    st.error(f"Error: {e}")
     
     def get_inputs():
         # Slider ranges reflect the data points in the sources [5, 7, 8]
@@ -82,6 +91,7 @@ except FileNotFoundError:
     st.error("Missing 'wine.csv' file in repository.")
 except Exception as e:
     st.error(f"Error: {e}")
+
 
 
 
