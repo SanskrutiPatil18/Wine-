@@ -1,4 +1,4 @@
-import streamlit as st
+ import streamlit as st
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
@@ -67,19 +67,21 @@ try:
     st.subheader(f"Top {num_rows} Rows of Dataset")
     st.dataframe(df.head(num_rows))
 
-    prediction = model.predict(user_data)
-    prediction_proba = model.predict_proba(user_data)
+prediction = model.predict(user_data)
+prediction_proba = model.predict_proba(user_data)
 
-    st.subheader("Prediction")
-    st.success(f"Predicted Class: **{prediction.upper()}**")
+st.subheader("Prediction")
+predicted_class = prediction[0]   # fix here
+st.success(f"Predicted Class: **{predicted_class.upper()}**")
 
-    st.subheader("Probability Bar Graph")
-    proba_df = pd.DataFrame(prediction_proba, columns=model.classes_)
-    st.bar_chart(proba_df.T)
+st.subheader("Probability Bar Graph")
+proba_df = pd.DataFrame(prediction_proba, columns=model.classes_)
+st.bar_chart(proba_df.T)
 
 except FileNotFoundError:
     st.error("Missing 'wine.csv' file in repository.")
 except Exception as e:
     st.error(f"Error: {e}")
+
 
 
