@@ -1,4 +1,4 @@
- import streamlit as st
+import streamlit as st
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
@@ -82,6 +82,7 @@ except FileNotFoundError:
     st.error("Missing 'wine.csv' file in repository.")
 except Exception as e:
     st.error(f"Error: {e}")
+
 
 
 
