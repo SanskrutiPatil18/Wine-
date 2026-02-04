@@ -56,7 +56,13 @@ except FileNotFoundError:
     st.error("Missing 'wine.csv' file in repository.")
 except Exception as e:
     st.error(f"Error: {e}")
-    
+
+    try:
+    ...
+    # stray code here not indented properly
+prediction = model.predict(user_data)   # <- wrong, outside try but before except
+except FileNotFoundError:
+    ...
     def get_inputs():
         # Slider ranges reflect the data points in the sources [5, 7, 8]
         alcohol = st.sidebar.slider('Alcohol', 11.0, 15.0, 13.0)
@@ -104,6 +110,7 @@ except FileNotFoundError:
     st.error("Missing 'wine.csv' file in repository.")
 except Exception as e:
     st.error(f"Error: {e}")
+
 
 
 
