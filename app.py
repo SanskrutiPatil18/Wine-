@@ -27,7 +27,20 @@ def load_and_train():
 
 try:
     df, model = load_and_train()
-    ...
+
+    # --- SIDEBAR: DATA PREVIEW ---
+    st.sidebar.header("Dataset Preview")
+    num_rows = st.sidebar.number_input("Rows to show:", min_value=1, max_value=len(df), value=5)
+
+    # --- SIDEBAR: USER INPUTS ---
+    st.sidebar.header("Input Features")
+
+    user_data = get_inputs()
+
+    # --- MAIN PANEL ---
+    st.subheader(f"Top {num_rows} Rows of Dataset")
+    st.dataframe(df.head(num_rows))
+
     prediction = model.predict(user_data)
     prediction_proba = model.predict_proba(user_data)
 
@@ -91,6 +104,7 @@ except FileNotFoundError:
     st.error("Missing 'wine.csv' file in repository.")
 except Exception as e:
     st.error(f"Error: {e}")
+
 
 
 
