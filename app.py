@@ -59,7 +59,7 @@ try:
             'ODRatio': od, 'Proline': proline
         }
         # FIXED: Added  to the index to resolve your SyntaxError [1]
-        return pd.DataFrame(data, index=5)
+        return pd.DataFrame(data, index=[1])
 
     user_data = get_inputs()
 
@@ -81,4 +81,5 @@ except FileNotFoundError:
     st.error("Missing 'wine.csv' file in repository.")
 except Exception as e:
     st.error(f"Error: {e}")
+
 
