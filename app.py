@@ -21,7 +21,6 @@ def load_and_train():
     model.fit(X, y)
     return df, model
 
-# --- MAIN EXECUTION ---
 try:
     df, model = load_and_train()
 
