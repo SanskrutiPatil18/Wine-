@@ -85,8 +85,3 @@ try:
     st.subheader("Prediction Probability Bar Graph")
     proba_df = pd.DataFrame(prediction_proba, columns=model.classes_)
     st.bar_chart(proba_df.T)
-
-except FileNotFoundError:
-    st.error("Error: 'wine.csv' not found. Please ensure the file is in the same directory.")
-except Exception as e:
-    st.error(f"An unexpected error occurred: {e}")
